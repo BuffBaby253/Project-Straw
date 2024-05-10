@@ -2,8 +2,8 @@
 
 # Author: BuffBaby253
 # Title: Project Straw
-# Description: Captures all nearby WiFi Traffic into PCAP form and saves seperate files to matching networks
-# Version: 1.1
+# Description: Captures all nearby WiFi Traffic into PCAP form
+# Version 1.2
 
 echo "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
@@ -47,20 +47,30 @@ mkdir -p "$output_dir"
 airmon-ng start wlan1
 
 # Start airodump-ng to capture traffic
-airodump-ng --write "$output_dir/capture" --output-format pcapng wlan1 &
+airodump-ng --write "$output_dir/capture" --output-format pcap wlan1 &
 
 # Wait for a few seconds to allow airodump-ng to capture some data
 sleep $sleep
 
-# Parse the captured files and split them by BSSID
-for file in "$output_dir/"*.pcapng; do
-    bssid=$(tshark -r "$file" -Y wlan.fc.type_subtype==0x08 -T fields -e wlan.bssid | head -n 1)
-    if [ -n "$bssid" ]; then
-        mv "$file" "$output_dir/$bssid.pcapng"
-    else
-        rm "$file"
-    fi
+echo "One moment please as I sort all the work"
+
+# Extract SSIDs from the capture file
+
+ssids=$(tshark -r capture-01.pcap -Y wlan.ssid -T fields -e wlan.ssid | uniq)
+
+sleep $sleep
+
+# Loop through each SSID and save the output to a separate file
+
+for ssid in $ssids; do
+
+  echo "Saving output for SSID $ssid..."
+
+  tshark -r capture-01.pcap -Y wlan.ssid==$ssid -w "$ssid".pcap
+
 done
+
+sleep 10
 
 echo "Capture completed. Files saved in $output_dir."
 
