@@ -11,12 +11,6 @@
 chmod -x ./straw.sh
 ```
 
-After that you are all set, simply run the command before excecuting:
-```
-sudo airmon-ng start wlan1
-```
-
-Now you can use Project Straw
 ```
 sudo ./straw.sh
 ```
