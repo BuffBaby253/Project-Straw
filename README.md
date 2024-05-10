@@ -11,6 +11,7 @@
 chmod -x ./straw.sh
 ```
 
+Now you are all set, run this by:
 ```
 sudo ./straw.sh
 ```
