@@ -28,15 +28,13 @@ WWNdd0WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"
 
-echo "What interface do you want to use, wlan1 huh?"
-
-read wlan
-
-echo "How long do you want Project Straw to run? (Input number of seconds)"
+echo "Hello, please plug in your wifi adapter and tell me how long you want this to run in seconds"
 
 read sleep
 
 echo "I will now do as you wish, wait quietly please and thank you"
+
+sleep 3
 
 # Define the output directory
 output_dir="captures"
@@ -44,8 +42,11 @@ output_dir="captures"
 # Create the output directory if it doesn't exist
 mkdir -p "$output_dir"
 
+# Set Wlan1 to monitor mode
+airmon-ng start wlan1
+
 # Start airodump-ng to capture traffic
-airodump-ng --write "$output_dir/capture" --output-format pcapng $wlan &
+airodump-ng --write "$output_dir/capture" --output-format pcapng wlan1 &
 
 # Wait for a few seconds to allow airodump-ng to capture some data
 sleep $sleep
@@ -61,3 +62,5 @@ for file in "$output_dir/"*.pcapng; do
 done
 
 echo "Capture completed. Files saved in $output_dir."
+
+sleep 3
