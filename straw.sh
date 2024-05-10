@@ -3,6 +3,7 @@
 # Author: BuffBaby253
 # Title: Project Straw
 # Description: Captures all nearby WiFi Traffic into PCAP form and saves seperate files to matching networks
+# Version: 1.1
 
 echo "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
